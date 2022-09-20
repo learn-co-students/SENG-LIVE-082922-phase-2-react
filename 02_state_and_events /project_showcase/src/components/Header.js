@@ -1,6 +1,12 @@
-import React from "react";
+import { useState } from "react";
 
 const Header = () => {
+  const [isDarkMode, setIsDarkMode] = useState(true)
+
+  const handleToggleDarkMode = () => {
+    setIsDarkMode(isDarkMode => !isDarkMode)
+  }
+
   return (
     <header>
       <h1>
@@ -8,7 +14,7 @@ const Header = () => {
         Project Showcase
       </h1>
       <nav>
-        <button>Light Mode</button>
+        <button onClick={handleToggleDarkMode}>{isDarkMode ? "Light" : "Dark"} Mode</button>
       </nav>
     </header>
   );
