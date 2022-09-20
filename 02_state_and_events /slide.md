@@ -110,12 +110,12 @@ This is helpful in the case where we need to introduce additional event handling
 
 <br>
 
-Inside the `Header` component, there is a button with textContent of `Dark Mode`
+Inside the `Header` component, there is a button with textContent of `Light Mode`
 
 <br>
 
 ```js
-<button>Dark Mode</button>
+<button>Light Mode</button>
 ```
 
 <br>
@@ -125,7 +125,7 @@ Attach an `onClick` event to the button:
 <br>
 
 ```js
-<button onClick={() => console.log("clicked")}>Dark Mode</button>
+<button onClick={() => console.log("clicked")}>Light Mode</button>
 ```
 
 <br>
@@ -136,7 +136,7 @@ We can also also refactor using a helper function:
 
  const handleClick = () => console.log('clicked')
 
-<button onClick={handeClick}>Dark Mode</button>
+<button onClick={handeClick}>Light Mode</button>
 ```
 
 <br>
