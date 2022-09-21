@@ -9,7 +9,7 @@ presentation:
 
 <h2><strong> React Information Flow </strong></h2>
 
-<img src="https://labs.tadigital.com/wp-content/uploads/2020/03/logo.png">
+<img src="https://res.cloudinary.com/dlzuobe8h/image/upload/v1663777860/phase2/logo_rato6n.png">
 
 https://labs.tadigital.com/index.php/2020/03/31/unidirectional-data-flow-in-react/
 
@@ -66,7 +66,7 @@ From [Step 4 of Thinking in React](https://reactwithhooks.netlify.app/docs/think
 
 <!-- slide -->
 ## Updated Data Flow
-<center><img  src="assets/component-hierarchy-with-updated-data-flow.drawio.svg" alt="Component Hierarchy" height="700" width="1500"></center>
+<center><img  src="assets/component-hierarchy-with-updated-data-flow.drawio.svg" alt="Component Hierarchy" height="1000" width="1500"></center>
 
 <!-- slide style="text-align: left;" -->
 
@@ -176,7 +176,7 @@ export default Header;
 
 ## Lifting Projects in State
 
-We need to modify `projects` from `ProjectForm` as well as access it from `ProjectList` so it needs to live in a common parent, in this case, `App` will do:
+We need to modify `projects` from `ProjectForm` as well as access it from `ProjectList` so it needs to live in a common parent, in this case, we'll move it to our new `ProjectsContainer` component:
 
 ```js
 // this needs to move up
@@ -196,7 +196,7 @@ const loadProjects = () => {
 After lifting state up, we need to pass it down as props to the component where it lived before!
 
 ```js
-// src/App.js
+// src/components/ProjectsContainer.js
 <ProjectList projects={projects} onLoadProjects={onLoadProjects} />
 
 // src/components/ProjectList.js
