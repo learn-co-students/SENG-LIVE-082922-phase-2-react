@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(isDarkMode => !isDarkMode)
-  }
+const Header = ({ isDarkMode, onToggleDarkMode }) => {
+  
 
   const handleToggleDarkMode = (e) => {
-    toggleDarkMode();
+    onToggleDarkMode();
   }
 
   return (

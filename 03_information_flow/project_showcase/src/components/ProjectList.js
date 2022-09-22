@@ -1,19 +1,13 @@
 import { useState } from 'react';
 import ProjectListItem from "./ProjectListItem";
 
-const ProjectList = () => {
-  const [projects, setProjects] = useState([]);
+const ProjectList = ({ projects, onLoadProjects }) => {
+  
   const [searchQuery, setSearchQuery] = useState("")
 
   const handleClick = () => {
-    loadProjects();
+    onLoadProjects();
   };
-  
-  const loadProjects = () => {
-    fetch("http://localhost:4000/projects")
-      .then((res) => res.json())
-      .then((projects) => setProjects(projects));
-  }
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value)
@@ -23,14 +17,13 @@ const ProjectList = () => {
     return project.name.toLowerCase().includes(searchQuery.toLowerCase())
   })
 
-  const renderProjects = (projects) => {
-    return projects.map(project => (
-      <ProjectListItem
-        key={project.id}
-        {...project}
-      />
-    ))
-  }
+  const projectListItems = searchResults.map(project => (
+    <ProjectListItem
+      key={project.id}
+      {...project}
+    />
+  ))
+  
 
   return (
     <section>
@@ -51,7 +44,7 @@ const ProjectList = () => {
         onChange={handleSearch}
       />
 
-      <ul className="cards">{renderProjects(searchResults)}</ul>
+      <ul className="cards">{projectListItems}</ul>
     </section>
   );
 };
