@@ -194,3 +194,5 @@ working with `useEffect` to refer to when you're ready:
 - [Using D3.js with React.js](https://blog.griddynamics.com/using-d3-js-with-react-js-an-8-step-comprehensive-manual/): An example of how to integrate a 3rd party library for data visualization (D3.js) utilizing the useEffect hook.
 
 ![React Component Lifecycle](assets/react-component-lifecycle.png)
+
+![Component Diagram](assets/component-hierarchy-diagram.drawio.svg)
