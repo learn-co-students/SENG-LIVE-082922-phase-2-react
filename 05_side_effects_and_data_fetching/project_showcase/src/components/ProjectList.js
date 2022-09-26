@@ -1,19 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProjectListItem from "./ProjectListItem";
 
-const ProjectList = ({ projects, onLoadProjects }) => {
-
-  const [searchQuery, setSearchQuery] = useState("")
+const ProjectList = ({
+  projects,
+  onSelectedPhaseChange,
+  searchQuery,
+  setSearchQuery
+}) => {
+  const [searchInputText, setSearchInputText] = useState("");
+ 
 
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value)
+    setSearchInputText(e.target.value)
   }
 
-  const searchResults = projects.filter(project => {
-    return project.name.toLowerCase().includes(searchQuery.toLowerCase())
-  })
+  useEffect(() => {
+    const scheduledUpdateTimeoutID = setTimeout(() => { 
+      setSearchQuery(searchInputText);
+    }, 300)
 
-  const projectListItems = searchResults.map(project => (
+    return () => {
+      clearTimeout(scheduledUpdateTimeoutID);
+    }
+  },[searchInputText, setSearchQuery])
+
+
+  const projectListItems = projects.map(project => (
     <ProjectListItem
       key={project.id}
       {...project}
@@ -22,16 +34,15 @@ const ProjectList = ({ projects, onLoadProjects }) => {
 
   return (
     <section>
-      <button onClick={onLoadProjects}>Load Projects</button>
       <h2>Projects</h2>
 
       <div className="filter">
-        <button>All</button>
-        <button>Phase 5</button>
-        <button>Phase 4</button>
-        <button>Phase 3</button>
-        <button>Phase 2</button>
-        <button>Phase 1</button>
+        <button onClick={() => onSelectedPhaseChange("")}>All</button>
+        <button onClick={() => onSelectedPhaseChange("5")}>Phase 5</button>
+        <button onClick={() => onSelectedPhaseChange("4")}>Phase 4</button>
+        <button onClick={() => onSelectedPhaseChange("3")}>Phase 3</button>
+        <button onClick={() => onSelectedPhaseChange("2")}>Phase 2</button>
+        <button onClick={() => onSelectedPhaseChange("1")}>Phase 1</button>
       </div>
       <input
         type="text"
