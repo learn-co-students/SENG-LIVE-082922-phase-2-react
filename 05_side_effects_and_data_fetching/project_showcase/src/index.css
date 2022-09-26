@@ -209,7 +209,7 @@ select:focus {
 
 .card .image .claps {
   color: transparent;
-  text-shadow: 0 0 0 var(--turquoise);
+  text-shadow: 0 0 0 var(--primary);
   position: absolute;
   top: 10px;
   right: 10px;
@@ -218,7 +218,7 @@ select:focus {
 .card .image .claps:focus,
 .card .image .claps:hover {
   color: transparent;
-  text-shadow: 0 0 0 var(--color);
+  text-shadow: 0 0 0 var(--background);
 }
 
 .card .details {
