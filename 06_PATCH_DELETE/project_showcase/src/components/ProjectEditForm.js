@@ -9,8 +9,6 @@ const initialState = {
 };
 
 const ProjectEditForm = ({ projectToEdit, onUpdateProject }) => {
-  
-
   const [formData, setFormData] = useState(initialState);
 
   const { name, about, phase, link, image } = formData;
@@ -31,7 +29,20 @@ const ProjectEditForm = ({ projectToEdit, onUpdateProject }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add code here
-    onUpdateProject();
+    fetch(`http://localhost:4000/projects/${projectToEdit.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(res => res.json())
+      .then(updatedProject => {
+        // pessimistic rendering
+        onUpdateProject(updatedProject);
+      })
+      // optimistic rendering
+      onUpdateProject(formData);
   }
 
   return (

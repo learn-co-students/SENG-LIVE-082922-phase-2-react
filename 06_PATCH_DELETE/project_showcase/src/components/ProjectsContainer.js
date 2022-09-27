@@ -35,9 +35,25 @@ const ProjectsContainer = () => {
     setProjects(projects => [...projects, newProject])
   }
 
-  const onUpdateProject = () => {
+  const onUpdateProject = (updatedProject) => {
+    console.log(updatedProject);
+    setProjects(projects => {
+      return projects.map(project => {
+        // I want all of the same projects as before
+        // except for the one that I just updated
+        // if (project.id === updatedProject.id) {
+        //   return updatedProject;
+        // }
+        // return project;
+        return project.id === updatedProject.id ? updatedProject : project;
+      })
+    })
     setProjectToEdit(null);
   };
+
+  const onDeleteProject = (id) => {
+    setProjects(projects => projects.filter(project => project.id !== id))
+  }
 
   const onEditProject = (projectToEdit) => {
     setProjectToEdit(projectToEdit);
@@ -63,6 +79,8 @@ const ProjectsContainer = () => {
         onSelectedPhaseChange={onSelectedPhaseChange}
         projects={projects}
         onEditProject={onEditProject}
+        onDeleteProject={onDeleteProject}
+        onUpdateProject={onUpdateProject}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
