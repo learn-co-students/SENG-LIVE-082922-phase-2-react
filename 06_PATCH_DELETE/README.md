@@ -14,11 +14,13 @@
 
 #### 1. Review changes to the project showcase application
 
+![Component Hierarchy Diagram](../assets/component-hierarchy-with-data-flow.drawio.svg)
+
 - Observe the `ProjectEditForm` component
 
 - Observe the edit button added to `ProjectListItem` component
 
-- Observe the updates applied in the `App` component
+- Observe the updates applied in the `ProjectsContainer` component
 
 - Update the `useEffect` inside the `ProjectEditForm` component so that the side effect will run upon `projectToEdit` updates
 
@@ -28,7 +30,7 @@
 
 - Include the updated state values in the `PATCH` request
 
-- Update the `projects` state in the parent component `App` using the `.map` function
+- Update the `projects` state in the parent component `ProjectsContainer` using the `.map` function
 
   - The goal is to return a new array with the original project excluded and the newly updated project included
 
@@ -40,7 +42,7 @@
 
 - Add a `DELETE` fetch request to the event handler for the delete button
 
-- Update the `projects` state in the parent component `App` using the `.filter` function
+- Update the `projects` state in the parent component `ProjectsContainer` using the `.filter` function
 
   - The goal is to return a new array with the deleted project excluded
 
@@ -48,7 +50,7 @@
 
 - Send a `PATCH` request when the `clapsCount` is updated through a click event
 
-- Update the `projects` state in the parent component `App` using the `.map` function
+- Update the `projects` state in the parent component `ProjectsContainer` using the `.map` function
 
 
 ![Updating an array of Objects in React state](assets/updating-an-array-of-objects-in-state.drawio.svg)

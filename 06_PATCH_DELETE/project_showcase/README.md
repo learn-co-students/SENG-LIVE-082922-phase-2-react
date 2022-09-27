@@ -1,6 +1,6 @@
 # Project Showcase
 
-![Inverse Data Flow](../../assets/react-inverse-data-flow-diagram.png)
+![Component Hierarchy Diagram](../assets/component-hierarchy-with-data-flow.drawio.svg)
 
 ## UI changes to enable editing
 
@@ -69,7 +69,7 @@ function ProjectEditForm() {
 export default ProjectEditForm;
 ```
 
-## In `App`, we need to:
+## In `ProjectsContainer`, we need to:
 
 ### keep track of which project is currently selected for editing: `projectToEdit` (initialize as `null`)
 
@@ -77,21 +77,20 @@ export default ProjectEditForm;
 const [projectToEdit, setProjectToEdit] = useState(null);
 ```
 
-### Add a callback function called `completeEditing` that will `setProjectToEdit` back to `null`
+### Add a callback function called `onUpdateProject` that will `setProjectToEdit` back to `null`
 
 ```js
-function completeEditing() {
+const onUpdateProject = () => {
   setProjectToEdit(null);
-}
+};
 ```
 
-### define a `enterProjectEditModeFor` callback function that will be called when a user clicks the edit button and store the chosen project in the piece of App state
+### define an `onEditProject` callback function that will be called when a user clicks the edit button and store the chosen project in the piece of App state
 
 ```js
-function enterProjectEditModeFor(projectId) {
-  const project = projects.find((p) => p.id === projectId);
-  setProjectToEdit(project);
-}
+const onEditProject = (projectToEdit) => {
+  setProjectToEdit(projectToEdit);
+};
 ```
 
 ### Import ProjectEditForm
@@ -106,18 +105,18 @@ import ProjectEditForm from "./components/ProjectEditForm";
 - if it doesn't, render `ProjectForm` as before
 
 ```jsx
-function renderForm() {
+const renderForm = () => {
   if (projectToEdit) {
     return (
       <ProjectEditForm
         projectToEdit={projectToEdit}
-        completeEditing={completeEditing}
+        onUpdateProject={onUpdateProject}
       />
     );
   } else {
-    return <ProjectForm onCreateProject={onCreateProject} />;
+    return <ProjectForm onAddProject={onAddProject} />;
   }
-}
+};
 // and update the JSX to replace
 // <ProjectForm onCreateProject={onCreateProject} />
 // with
@@ -132,8 +131,11 @@ function renderForm() {
 // <ProjectList projects={projects} />
 // will become
 <ProjectList
+  onSelectedPhaseChange={onSelectedPhaseChange}
   projects={projects}
-  enterProjectEditModeFor={enterProjectEditModeFor}
+  onEditProject={onEditProject}
+  searchQuery={searchQuery}
+  setSearchQuery={setSearchQuery}
 />
 ```
 
@@ -148,7 +150,7 @@ import React, { useState } from "react";
 ### accept `projectToEdit`, and `completeEditing` as props
 
 ```js
-function ProjectEditForm({ projectToEdit, completeEditing }) {
+const ProjectEditForm = ({ projectToEdit, onUpdateProject }) => {
 ```
 
 ### set up our `formData` as an object in this case, we're going to load the object data from the API based on `projectToEdit`
@@ -235,19 +237,19 @@ const { name, about, phase, link, image } = formData;
 ### Add a `handleChange` event handler that will dynamically (and non-destructively) update the `formData`
 
 ```js
-function handleChange(event) {
-  const { name, value } = event.target;
-  setformData({ ...formData, [name]: value });
-}
+const handleOnChange = (e) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+};
 ```
 
 ### add a `handleSubmit` event handler that will need to update the backend eventually
 
 ```js
-function handleSubmit(event) {
-  event.preventDefault();
-  // fill me in!
-  completeEditing();
+const handleSubmit = (e) => {
+  e.preventDefault();
+  // Add code here
+  onUpdateProject();
 }
 ```
 
@@ -255,21 +257,26 @@ function handleSubmit(event) {
 
 ```js
 useEffect(() => {
-  fetch(`http://localhost:4000/projects/${projectToEdit}`)
+  fetch(`http://localhost:4000/projects/${projectToEdit.id}`)
     .then((res) => res.json())
-    .then((project) => setformData(project));
-});
+    .then((project) => setFormData(project));
+}, [projectToEdit.id]);
 ```
 
 ## In `ProjectList` we need to
 
-### accept `enterProjectEditModeFor` as a prop
+### accept `onEditProject` as a prop
 
 ```js
-function ProjectList({projects, enterProjectEditModeFor}) {
+const ProjectList = ({
+  projects,
+  onSelectedPhaseChange,
+  onEditProject,
+  setSearchQuery
+}) => {
 ```
 
-### pass `enterProjectEditModeFor` as a prop to each `ProjectListItem`
+### pass `onEditProject` as a prop to each `ProjectListItem`
 
 ```js
 const projectItems = searchResults.map((project) => {
@@ -277,7 +284,7 @@ const projectItems = searchResults.map((project) => {
     <ProjectListItem
       key={project.id}
       {...project}
-      enterProjectEditModeFor={enterProjectEditModeFor}
+      onEditProject={onEditProject}
     />
   );
 });
@@ -285,31 +292,16 @@ const projectItems = searchResults.map((project) => {
 
 ## In `ProjectListItem` we need to:
 
-### accept `enterProjectEditModeFor` and `project` as props
+### accept `onEditProject` and `project` as props
 
 ```jsx
-function ProjectItem({
-  id,
-  name,
-  about,
-  phase,
-  link,
-  image
-}) {
+const ProjectListItem = ({ project }) => {
 ```
 
 becomes
 
 ```jsx
-function ProjectItem({
-  id,
-  name,
-  about,
-  phase,
-  link,
-  image,
-  enterProjectEditModeFor
-}) {
+const ProjectListItem = ({ project, onEditProject }) => {
 ```
 
 ### Add a button with an edit icon within the JSX
@@ -348,9 +340,9 @@ import { FaPencilAlt, FaTrash } from "react-icons/fa";
 ### add an event listener to the edit icon in ProjectListItem that invokes the `enterProjectEditModeFor` callback with the project's `id` received as a prop as its argument.
 
 ```js
-function handleEditClick() {
-  enterProjectEditModeFor(id);
-}
+const handleEditClick = () => {
+  onEditProject(project);
+};
 ```
 
 ```js
@@ -362,7 +354,7 @@ function handleEditClick() {
 ### Add a `handleDeleteClick` function that will handle clicks on the Trash can button.
 
 ```js
-function handleDeleteClick() {}
+const handleDeleteClick = () => {};
 ```
 
 ```jsx

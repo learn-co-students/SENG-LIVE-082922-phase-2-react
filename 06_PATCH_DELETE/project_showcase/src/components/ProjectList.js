@@ -1,51 +1,57 @@
+import { useEffect, useState } from 'react';
 import ProjectListItem from "./ProjectListItem";
-import { useState, useEffect } from "react";
 
 const ProjectList = ({
   projects,
+  onSelectedPhaseChange,
   onEditProject,
-  setSelectedPhase,
   setSearchQuery
 }) => {
   const [searchInputText, setSearchInputText] = useState("");
+ 
 
-  const projectItems = projects.map((project) => {
-    return (
-      <ProjectListItem
-        key={project.id}
-        project={project}
-        onEditProject={onEditProject}
-      />
-    );
-  });
-
-  const handleOnChange = (e) => setSearchInputText(e.target.value);
+  const handleSearch = (e) => {
+    setSearchInputText(e.target.value)
+  }
 
   useEffect(() => {
-    const scheduledUpdate = setTimeout(() => {
+    const scheduledUpdateTimeoutID = setTimeout(() => { 
       setSearchQuery(searchInputText);
     }, 300)
-    
+
     return () => {
-      clearTimeout(scheduledUpdate);
+      clearTimeout(scheduledUpdateTimeoutID);
     }
-  }, [setSearchQuery, searchInputText])
+  },[searchInputText, setSearchQuery])
+
+
+  const projectListItems = projects.map(project => (
+    <ProjectListItem
+      key={project.id}
+      project={project}
+      onEditProject={onEditProject}
+    />
+  ))
 
   return (
     <section>
       <h2>Projects</h2>
 
       <div className="filter">
-        <button onClick={() => setSelectedPhase("")}>All</button>
-        <button onClick={() => setSelectedPhase("5")}>Phase 5</button>
-        <button onClick={() => setSelectedPhase("4")}>Phase 4</button>
-        <button onClick={() => setSelectedPhase("3")}>Phase 3</button>
-        <button onClick={() => setSelectedPhase("2")}>Phase 2</button>
-        <button onClick={() => setSelectedPhase("1")}>Phase 1</button>
+        <button onClick={() => onSelectedPhaseChange("")}>All</button>
+        <button onClick={() => onSelectedPhaseChange("5")}>Phase 5</button>
+        <button onClick={() => onSelectedPhaseChange("4")}>Phase 4</button>
+        <button onClick={() => onSelectedPhaseChange("3")}>Phase 3</button>
+        <button onClick={() => onSelectedPhaseChange("2")}>Phase 2</button>
+        <button onClick={() => onSelectedPhaseChange("1")}>Phase 1</button>
       </div>
-      <input type="text" placeholder="Search..." onChange={handleOnChange} />
+      <input
+        type="text"
+        placeholder="Search..."
+        onChange={handleSearch}
+      />
 
-      <ul className="cards">{projectItems}</ul>
+      <ul className="cards">{projectListItems}</ul>
     </section>
   );
 };
