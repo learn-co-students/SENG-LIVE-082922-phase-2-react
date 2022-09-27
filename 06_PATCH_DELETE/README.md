@@ -14,7 +14,7 @@
 
 #### 1. Review changes to the project showcase application
 
-![Component Hierarchy Diagram](../assets/component-hierarchy-with-data-flow.drawio.svg)
+![Component Hierarchy Diagram](./assets/component-hierarchy-with-data-flow.drawio.svg)
 
 - Observe the `ProjectEditForm` component
 
