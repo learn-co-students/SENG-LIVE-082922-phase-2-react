@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Switch, Route } from "react-router-dom";
 import ProjectList from './ProjectList';
 import ProjectEditForm from './ProjectEditForm';
 import ProjectForm from './ProjectForm';
@@ -71,18 +72,29 @@ const ProjectsContainer = () => {
 
 
   return (
-    <>
-      {renderForm()}
-      <ProjectList
-        projects={projects}
-        onEditProject={onEditProject}
-        onUpdateProject={onUpdateProject}
-        onDeleteProject={onDeleteProject}
-        onSelectedPhaseChange={onSelectedPhaseChange}
-        setSelectedPhase={setSelectedPhase}
-        setSearchQuery={setSearchQuery}
-      />
-    </>
+    <Switch>
+      <Route exact path={["/projects", "/projects/phase/:phase"]}>
+        <ProjectList
+          projects={projects}
+          onEditProject={onEditProject}
+          onUpdateProject={onUpdateProject}
+          onDeleteProject={onDeleteProject}
+          onSelectedPhaseChange={onSelectedPhaseChange}
+          setSelectedPhase={setSelectedPhase}
+          setSearchQuery={setSearchQuery}
+        />
+      </Route>
+      <Route path="/projects/new">
+        <ProjectForm onAddProject={onAddProject} /> 
+      </Route>
+      <Route path="/projects/:id/edit">
+        <ProjectEditForm
+          projectToEdit={projectToEdit}
+          onUpdateProject={onUpdateProject}
+        />
+      </Route>
+      
+    </Switch>
   )
 }
 
