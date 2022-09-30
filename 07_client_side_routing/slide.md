@@ -25,16 +25,36 @@ presentation:
 
 <br>
 
-"React Router is a fully-featured client and server-side routing library for React, a JavaScript library for building user interfaces. React Router runs anywhere React runs; on the web, on the server with node.js, and on React Native."
-[React Router Docs](https://reactrouter.com/docs/en/v6/getting-started/tutorial)
+<details>
+  <summary>
+    Reveal ⬇️
+  </summary>
+  <hr/>
 
-<br>
+  Conditional client side rendering based on the browser URL.
 
-⬇️
+  <hr/>
 
-<br>
+</details>
+<br/>
+
 
 "Client side routing is a type of routing where as the user navigates around the application or website no full page reloads take place, even when the page’s URL changes. Instead, JavaScript is used to update the URL and fetch and display new content" - Will Taylor
+
+"React Router is a fully-featured client and server-side routing library for React... React Router runs anywhere React runs; on the web, on the server with node.js, and on React Native."
+[React Router Docs](https://reactrouter.com/docs/en/v6/getting-started/tutorial)
+
+<!-- slide -->
+
+#### Install and setup react router
+
+- React Router has been updated to V6 but V5 is used in the curriculum.
+
+- To install V5 run this command: `npm install react-router-dom@5.3.3` otherwise, V6 will install by default
+
+- Within `index.js`, wrap the `App` component in the `BrowserRouter` component that will be imported from the `react-router-dom` library
+
+- Check out this post if you're curious about [what's new in v6](https://enlear.academy/whats-new-in-react-router-6-e34e451e5285)
 
 <!-- slide style="text-align: left;" -->
 
@@ -105,9 +125,9 @@ ReactDOM.render(
 
 <!-- slide style="text-align: left;" -->
 
-<h2 style="text-align: center;"><strong> Switch Component </strong></h2>
+<h2 style="text-align: center;"><strong> 2️⃣ Switch Component </strong></h2>
 
-💡 `Switch` is a wrapper for Routes. Looks through all its child Route components and returns the first one that matches the current URL (like a switch statement in JavaScript)
+💡 `Switch` is a wrapper for Routes. Looks through all its child components and renders only the first one
 
 ❓ Where does it belong?
 
@@ -120,16 +140,7 @@ return (
     <Switch>
       <Home />
       <About />
-      {renderForm()}
-      <ProjectList
-        projects={projects}
-        onEditProject={onEditProject}
-        onDeleteProject={onDeleteProject}
-        setSelectedPhase={setSelectedPhase}
-        setSearchQuery={setSearchQuery}
-      />
-      <Home />
-      <ProjectDetail />
+      <ProjectsContainer />
     </Switch>
   </div>
 );
@@ -137,17 +148,21 @@ return (
 
 <!-- slide style="text-align: left;" -->
 
-<h2 style="text-align: center;"><strong> Creating routes using the Route Component </strong></h2>
+<h2 style="text-align: center;"><strong> 3️⃣ Creating routes using the Route Component </strong></h2>
 
-💡 `Route` wraps content that should be visible when the designated route is active.
+💡 `Route` wraps content that should be visible when the designated route is active (when the current url matches its path).
 
 ❓ Where does it belong?
 
 - Every component nested inside of the `Switch` component will be individually wrapped inside of a `Route` component.
 
-💥 Route will be provided a `path` prop. This is where the developer can define the URL associated with the component. That means that if the pattern of the URL matches the path defined, the Route will render its children. Otherwise, the Route renders null.
+💥 Route will be provided a `path` prop, indicating when its children should be visible. 
 
-<!-- slide style="text-align: left;" -->
+<!-- slide -->
+
+<img src="./assets/route-component.drawio.svg" alt="Route Component Example" style="width: 800px; max-width: 85%" />
+
+<!-- slide -->
 
 ```js
 return (
@@ -157,17 +172,11 @@ return (
       <Route exact path="/">
         <Home />
       </Route>
-      <Route path="/projects/new">
-        <ProjectForm onAddProject={onAddProject} />
-      </Route>
-      <Route path="/projects/:id/edit">
-        <ProjectEditForm onUpdateProject={onUpdateProject} />
-      </Route>
-      <Route path="/projects/:id">
-        <ProjectDetail />
+      <Route path="/about">
+        <About />
       </Route>
       <Route path="/projects">
-        <ProjectList projects={projects} onDeleteProject={onDeleteProject} />
+        <ProjectsContainer />
       </Route>
     </Switch>
   </div>
@@ -176,7 +185,7 @@ return (
 
 <!-- slide style="text-align: left;" -->
 
-<h2 style="text-align: center;"><strong> Link Component </strong></h2>
+<h2 style="text-align: center;"><strong>4️⃣ Link Component </strong></h2>
 
 <br>
 
@@ -217,7 +226,7 @@ return (
 ```
 <!-- slide style="text-align: left;" -->
 
-<h2 style="text-align: center;"><strong> Using Navlink </strong></h2>
+<h2 style="text-align: center;"><strong>5️⃣ Using Navlink </strong></h2>
 
 <br>
 

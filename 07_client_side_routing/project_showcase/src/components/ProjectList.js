@@ -5,6 +5,7 @@ const ProjectList = ({
   projects,
   onEditProject,
   onDeleteProject,
+  onUpdateProject,
   setSelectedPhase,
   setSearchQuery
 }) => {
@@ -17,6 +18,7 @@ const ProjectList = ({
         project={project}
         onEditProject={onEditProject}
         onDeleteProject={onDeleteProject}
+        onUpdateProject={onUpdateProject}
       />
     );
   });
